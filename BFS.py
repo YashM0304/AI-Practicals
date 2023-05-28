@@ -7,6 +7,7 @@ class Graph:
     
     def add_edge(self, v, w):
         self.adj[v].append(w)
+        self.adj[w].append(v)
     
     def bfs(self, s):
         visited = [False] * self.V
