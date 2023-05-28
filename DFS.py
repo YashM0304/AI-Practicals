@@ -7,7 +7,8 @@ class Graph:
     
     def add_edge(self, v, w):
         self.adj[v].append(w)
-    
+        self.adj[w].append(v)
+        
     def dfs(self, v, visited):
         visited[v] = True
         print(v, end=' ')
