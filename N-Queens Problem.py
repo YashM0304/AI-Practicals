@@ -1,35 +1,79 @@
 class NQueens:
-    def __init__(self, n):
-        self.n = n
-        self.result = []
-
-    def solve(self):
-        board = [-1] * self.n
-        self.place_queen(board, 0)
-        return self.result
-
-    def place_queen(self, board, row):
-        if row == self.n:
-            self.result.append(board[:])
-        else:
-            for col in range(self.n):
-                if self.is_safe(board, row, col):
-                    board[row] = col
-                    self.place_queen(board, row + 1)
-                    board[row] = -1
-
     def is_safe(self, board, row, col):
-        for i in range(row):
-            if (
-                board[i] == col or
-                board[i] - i == col - row or
-                board[i] + i == col + row
-            ):
+        # Vertically up
+        for i in range(row - 1, -1, -1):
+            if board[i][col] == 'Q':
                 return False
+        
+        # Left diagonal up
+        i, j = row - 1, col - 1
+        while i >= 0 and j >= 0:
+            if board[i][j] == 'Q':
+                return False
+            i -= 1
+            j -= 1
+        
+        # Right diagonal up
+        i, j = row - 1, col + 1
+        while i >= 0 and j < len(board):
+            if board[i][j] == 'Q':
+                return False
+            i -= 1
+            j += 1
+        
         return True
-n = 4
-n_queens = NQueens(n)
-solutions = n_queens.solve()
+    
+    def n_queens(self, board, row):
+        if row == len(board):
+            self.print_board(board)
+            self.count += 1
+            return
+        
+        for j in range(len(board)):
+            if self.is_safe(board, row, j):
+                # Place a queen in each row
+                board[row][j] = 'Q'
+                self.n_queens(board, row + 1)
+                board[row][j] = 'x'
+    
+    def n_queens_single_solution(self, board, row):
+        if row == len(board):
+            self.print_board(board)
+            self.count += 1
+            return True
+        
+        for j in range(len(board)):
+            if self.is_safe(board, row, j):
+                # Place a queen in each row
+                board[row][j] = 'Q'
+                if self.n_queens_single_solution(board, row + 1):
+                    return True
+                board[row][j] = 'x'
+        
+        return False
+    
+    def print_board(self, board):
+        print("---Chess Board---")
+        for i in range(len(board)):
+            for j in range(len(board)):
+                print(board[i][j], end=" ")
+            print()
+    
+    def solve_n_queens(self, n):
+        board = [['x'] * n for _ in range(n)]
+        self.count = 0
+        
+        self.n_queens(board, 0)
+        print("Total number of solutions: ", self.count)
+        
+        # Uncomment the lines below to check for a single solution
+        # if self.n_queens_single_solution(board, 0):
+        #     print("Solution exists")
+        #     self.print_board(board)
+        # else:
+        #     print("Solution does not exist.")
 
-for solution in solutions:
-    print(solution)
+if __name__ == "__main__":
+    n = 6
+    queens = NQueens()
+    queens.solve_n_queens(n)
