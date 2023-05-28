@@ -8,7 +8,7 @@ class Prim:
         minimum_spanning_tree = []
         visited = set()
         heap = []
-
+        mstCost = 0
         # Start with the given start_vertex
         visited.add(start_vertex)
         self.add_edges_to_heap(start_vertex, heap)
@@ -18,9 +18,10 @@ class Prim:
 
             if neighbor not in visited:
                 visited.add(neighbor)
+                mstCost+=weight
                 minimum_spanning_tree.append((vertex, neighbor, weight))
                 self.add_edges_to_heap(neighbor, heap)
-
+        print(mstCost)
         return minimum_spanning_tree
 
     def add_edges_to_heap(self, vertex, heap):
