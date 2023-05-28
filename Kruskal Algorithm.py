@@ -1,72 +1,55 @@
-Kruskal Algorithm
-
-class UnionFind:
+class Graph:
     def __init__(self, vertices):
-        self.parent = {}
-        self.rank = {}
-        for v in vertices:
-            self.parent[v] = v
-            self.rank[v] = 0
-
-    def find(self, v):
-        if self.parent[v] != v:
-            self.parent[v] = self.find(self.parent[v])
-        return self.parent[v]
-
-    def union(self, v1, v2):
-        root1 = self.find(v1)
-        root2 = self.find(v2)
-        if root1 != root2:
-            if self.rank[root1] < self.rank[root2]:
-                self.parent[root1] = root2
-            elif self.rank[root1] > self.rank[root2]:
-                self.parent[root2] = root1
-            else:
-                self.parent[root2] = root1
-                self.rank[root1] += 1
-
-class Kruskal:
-    def __init__(self, vertices):
-        self.vertices = vertices
+        self.V = vertices
         self.graph = []
 
-    def add_edge(self, u, v, weight):
-        self.graph.append((u, v, weight))
+    def addEdge(self, u, v, w):
+        self.graph.append((u, v, w))
 
-    def run(self):
-        self.graph.sort(key=lambda x: x[2])
-        union_find = UnionFind(self.vertices)
-        mst = []
+    def find(self, parent, i):
+        if parent[i] != i:
+            parent[i] = self.find(parent, parent[i])
+        return parent[i]
 
-        for edge in self.graph:
-            u, v, weight = edge
-            root1 = union_find.find(u)
-            root2 = union_find.find(v)
-            if root1 != root2:
-                mst.append(edge)
-                union_find.union(root1, root2)
+    def union(self, parent, rank, x, y):
+        xroot = self.find(parent, x)
+        yroot = self.find(parent, y)
 
-        return mst
+        if rank[xroot] < rank[yroot]:
+            parent[xroot] = yroot
+        elif rank[xroot] > rank[yroot]:
+            parent[yroot] = xroot
+        else:
+            parent[yroot] = xroot
+            rank[xroot] += 1
+
+    def KruskalMST(self):
+        result = []
+        self.graph.sort(key=lambda x: x[2])  # Sort edges by weight
+        parent = [i for i in range(self.V)]
+        rank = [0] * self.V
+        minimumCost = 0
+
+        for u, v, w in self.graph:
+            x = self.find(parent, u)
+            y = self.find(parent, v)
+
+            if x != y:
+                result.append((u, v, w))
+                self.union(parent, rank, x, y)
+                minimumCost += w
+
+        print("Edges in the constructed MST:")
+        for u, v, weight in result:
+            print("%d -- %d == %d" % (u, v, weight))
+        print("Minimum Spanning Tree Cost:", minimumCost)
 
 
-vertices = ['A', 'B', 'C', 'D', 'E', 'F']
-kruskal = Kruskal(vertices)
+g = Graph(4)
+g.addEdge(0, 1, 10)
+g.addEdge(0, 2, 6)
+g.addEdge(0, 3, 5)
+g.addEdge(1, 3, 15)
+g.addEdge(2, 3, 4)
 
-
-# Adding edges to the graph
-kruskal.add_edge('A', 'B', 5)
-kruskal.add_edge('A', 'C', 9)
-kruskal.add_edge('A', 'F', 6)
-kruskal.add_edge('B', 'C', 2)
-kruskal.add_edge('B', 'D', 7)
-kruskal.add_edge('C', 'D', 4)
-kruskal.add_edge('C', 'F', 3)
-kruskal.add_edge('D', 'E', 8)
-kruskal.add_edge('E', 'F', 1)
-
-# Running Kruskal's algorithm
-minimum_spanning_tree = kruskal.run()
-
-# Printing the minimum spanning tree
-for edge in minimum_spanning_tree:
-    print(edge)
+g.KruskalMST()
