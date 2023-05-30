@@ -55,4 +55,6 @@ if __name__ == "__main__":
     n = 6
     queens = NQueens()
     queens.solve_n_queens(n)
+    
+    # O(N!) O(N)
 
