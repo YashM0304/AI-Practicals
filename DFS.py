@@ -32,3 +32,5 @@ g.add_edge(2, 4)
 # Perform DFS traversal starting from vertex 0
 print("Following is Depth First Traversal (starting from vertex 0):")
 g.dfs_traversal(0)
+
+#O(n^d) O(n*d)
