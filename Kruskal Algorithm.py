@@ -53,3 +53,5 @@ g.addEdge(1, 3, 15)
 g.addEdge(2, 3, 4)
 
 g.KruskalMST()
+
+# O(E log E) O(V + E)
