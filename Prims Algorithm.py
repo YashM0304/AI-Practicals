@@ -43,3 +43,5 @@ minimum_spanning_tree = prim.run('A')
 
 for edge in minimum_spanning_tree:
     print(edge)
+    
+    # O((V+E)logV) O(V+E)

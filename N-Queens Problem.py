@@ -1,5 +1,5 @@
 class NQueens:
-    def is_safe(self, board, row, col):
+    def is_safe(self, board, row, col): #4
         # Vertically up
         for i in range(row - 1, -1, -1):
             if board[i][col] == 'Q':
@@ -23,7 +23,7 @@ class NQueens:
         
         return True
     
-    def n_queens(self, board, row):
+    def n_queens(self, board, row): #2
         if row == len(board):
             self.print_board(board)
             self.count += 1
@@ -36,14 +36,14 @@ class NQueens:
                 self.n_queens(board, row + 1)
                 board[row][j] = 'x'
 
-    def print_board(self, board):
+    def print_board(self, board):   #3
         print("---Chess Board---")
         for i in range(len(board)):
             for j in range(len(board)):
                 print(board[i][j], end=" ")
             print()
     
-    def solve_n_queens(self, n):
+    def solve_n_queens(self, n):  #1
         board = [['x'] * n for _ in range(n)]
         self.count = 0
         
@@ -55,4 +55,6 @@ if __name__ == "__main__":
     n = 6
     queens = NQueens()
     queens.solve_n_queens(n)
+    
+    # O(N!) O(N)
 

@@ -6,12 +6,12 @@ class Graph:
     def addEdge(self, u, v, w):
         self.graph.append((u, v, w))
 
-    def find(self, parent, i):
+    def find(self, parent, i):  #Find parent of given element in the disjoint set 
         if parent[i] != i:
             parent[i] = self.find(parent, parent[i])
         return parent[i]
-
-    def union(self, parent, rank, x, y):
+   
+    def union(self, parent, rank, x, y):  #Merges two sets
         xroot = self.find(parent, x)
         yroot = self.find(parent, y)
 
@@ -25,7 +25,7 @@ class Graph:
 
     def KruskalMST(self):
         result = []
-        self.graph.sort(key=lambda x: x[2])  # Sort edges by weight
+        self.graph.sort(key=lambda x: x[2])  # Sort edges by weight 
         parent = [i for i in range(self.V)]
         rank = [0] * self.V
         minimumCost = 0
@@ -53,3 +53,5 @@ g.addEdge(1, 3, 15)
 g.addEdge(2, 3, 4)
 
 g.KruskalMST()
+
+# O(E log E) O(V + E)
