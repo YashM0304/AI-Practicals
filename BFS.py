@@ -37,3 +37,5 @@ g.add_edge(3, 3)
 # Perform BFS traversal starting from vertex 2
 print("Following is Breadth First Traversal (starting from vertex 2):")
 g.bfs(2)
+
+# O(n^d) O(n)
